@@ -1,0 +1,20 @@
+.hh1 {
+    color: #27aedb;
+    text-align: center;
+}
+html, body {
+    font-size: 14px;
+    font-family: sans-serif;
+
+    .menu{
+        >a {
+            display: inline-block;
+            margin: 0 10px;
+            text-decoration: none;
+
+            &.active{
+                text-decoration: underline;
+            }
+        }
+    }
+}
