@@ -9,7 +9,7 @@ yarn add -D webpack webpack-cli
 ```
 
 ```
-yarn add react react-dom react-router-dom @babel/runtime @babel/polyfill
+yarn add react react-dom react-router-dom @babel/runtime @babel/polyfill numeral
 ```
 
 ```
