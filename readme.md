@@ -1,3 +1,5 @@
+# Webpack BluePrint
+
 ### [How to build a React project from scratch using Webpack 4 and Babel](https://hackernoon.com/how-to-build-a-react-project-from-scratch-using-webpack-4-and-babel-56d4a26afd32)
 
 ```
@@ -28,13 +30,70 @@ yarn add -D webpack-merge cross-env dotenv dotenv-expand dotenv-extended fs.extr
 yarn add -D eslint prettier babel-eslint eslint-config-airbnb eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react prettier-eslint eslint-config-prettier eslint-plugin-prettier
 ```
 
+---
+
+## \*
+
+---
+
+- `yarn add -D nodemon` -or- `npm i -g nodemon`
+- `npm i -g webpack-stats-graph`
+
+---
+
+> **Edit Needed on webpack-stats-graph v(0.2.1)**
+>
+> - run `npm root -g`
+> - navagate to '\webpack-stats-graph\'
+> - open 'index.js'
+> - add line (#325) `.filter(d => d.moduleId !== null)` before line `.map(d => ({ graphId: d.moduleId.toString(), type: d.type, }))`
+>
+> ```
+> issuers: m.reasons
+>    .filter(d => d.moduleId !== null)
+>    .map(d => ({
+>        graphId: d.moduleId.toString(),
+>        type: d.type,
+>    })),
+> ```
+>
+> - replace line (#414) `const clusterDetails = parseClusterDetails(chunkIds.map(c => stats.chunks[c]));` to `const clusterDetails = parseClusterDetails(chunkIds.filter(id => stats.chunks[id]).map(c => stats.chunks[c]));`
+>
+> ```
+> const clusterDetails = parseClusterDetails(chunkIds.filter(id => stats.chunks[id]).map(c => stats.chunks[c]));
+> ```
+
+---
+
+##### Enabling hot Reloading instead of reloading page.
+
+```js
+//console.log(ENV_IS);
+//if (ENV_IS_DEVELOPMENT) { console.log('[scoring] evaluating'); }
+
+if (module.hot) {
+  module.hot.accept(console.log.bind(console));
+
+  const doc = angular.element(document);
+  const injector = doc.injector();
+
+  if (injector) {
+    const actualService = Object.getPrototypeOf(injector.get('scoring'));
+    const newScoringService = Object.getPrototypeOf(new Scoring());
+    // note: just replaces functions
+    Object.getOwnPropertyNames(actualService)
+      .filter(key => typeof actualService[key] === 'function')
+      .forEach(key => (actualService[key] = newScoringService[key]));
+    doc
+      .find('html')
+      .scope()
+      .$apply();
+    console.info('[scoring] Hot Swapped!!');
+  }
+}
 ```
 
-```
-
-```
-
-```
+---
 
 ## Resources
 
