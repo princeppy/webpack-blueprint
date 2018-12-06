@@ -2,19 +2,19 @@
 
 ### [How to build a React project from scratch using Webpack 4 and Babel](https://hackernoon.com/how-to-build-a-react-project-from-scratch-using-webpack-4-and-babel-56d4a26afd32)
 
-```
+```bash
 yarn init
 ```
 
-```
+```bash
 yarn add -D webpack webpack-cli
 ```
 
-```
+```bash
 yarn add react react-dom react-router-dom @babel/runtime @babel/polyfill numeral
 ```
 
-```
+```bash
 yarn add -D @babel/core babel-loader @babel/preset-env @babel/preset-react @babel/plugin-transform-runtime
 yarn add -D html-webpack-plugin html-loader webpack-dev-server prop-types
 yarn add -D uglifyjs-webpack-plugin clean-webpack-plugin
@@ -22,17 +22,17 @@ yarn add -D css-loader style-loader mini-css-extract-plugin node-sass postcss-lo
 yarn add -D autoprefixer cssnano
 ```
 
-```
+```bash
 yarn add -D webpack-merge cross-env dotenv dotenv-expand dotenv-extended fs.extra yargs config
 ```
 
-```
+```bash
 yarn add -D eslint prettier babel-eslint eslint-config-airbnb eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react prettier-eslint eslint-config-prettier eslint-plugin-prettier
 ```
 
 ---
 
-## \*
+## \* \*
 
 ---
 
@@ -48,7 +48,7 @@ yarn add -D eslint prettier babel-eslint eslint-config-airbnb eslint-plugin-impo
 > - open 'index.js'
 > - add line (#325) `.filter(d => d.moduleId !== null)` before line `.map(d => ({ graphId: d.moduleId.toString(), type: d.type, }))`
 >
-> ```
+> ```js
 > issuers: m.reasons
 >    .filter(d => d.moduleId !== null)
 >    .map(d => ({
@@ -59,7 +59,7 @@ yarn add -D eslint prettier babel-eslint eslint-config-airbnb eslint-plugin-impo
 >
 > - replace line (#414) `const clusterDetails = parseClusterDetails(chunkIds.map(c => stats.chunks[c]));` to `const clusterDetails = parseClusterDetails(chunkIds.filter(id => stats.chunks[id]).map(c => stats.chunks[c]));`
 >
-> ```
+> ```js
 > const clusterDetails = parseClusterDetails(chunkIds.filter(id => stats.chunks[id]).map(c => stats.chunks[c]));
 > ```
 
@@ -68,9 +68,6 @@ yarn add -D eslint prettier babel-eslint eslint-config-airbnb eslint-plugin-impo
 ##### Enabling hot Reloading instead of reloading page.
 
 ```js
-//console.log(ENV_IS);
-//if (ENV_IS_DEVELOPMENT) { console.log('[scoring] evaluating'); }
-
 if (module.hot) {
   module.hot.accept(console.log.bind(console));
 

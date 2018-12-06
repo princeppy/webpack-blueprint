@@ -1,7 +1,7 @@
 'use strict';
 
-const webpackDevConfig = require('./config/webpack.config.dev');
-const webpackProdConfig = require('./config/webpack.config.prod');
+const webpackDevConfig = require('./webpack/config/webpack.config.dev');
+const webpackProdConfig = require('./webpack/config/webpack.config.prod');
 
 module.exports = (env, argv) => {
     const aMode = env || argv.mode || argv.env || 'development';
