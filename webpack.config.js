@@ -1,19 +1,18 @@
 'use strict';
 
-const webpackDevConfig = require('./webpack/config/webpack.config.dev');
-const webpackProdConfig = require('./webpack/config/webpack.config.prod');
-
 module.exports = (env, argv) => {
-    const aMode = env || argv.mode || argv.env || 'development';
-    const isDevelopment = aMode === 'development';
-    console.log(
-        `This is a ${isDevelopment ? 'development' : 'production'} build`,
-        ' ',
-        isDevelopment
-    );
+  const aMode = env || argv.mode || argv.env || 'development';
+  const isDevelopment = aMode === 'development';
+  console.log(`This is a ${isDevelopment ? 'development' : 'production'} build`, ' ', isDevelopment);
 
-    const _config = isDevelopment ? webpackDevConfig : webpackProdConfig;
+  const _config = isDevelopment
+    ? require('./webpack/config/webpack.config.dev')
+    : require('./webpack/config/webpack.config.prod');
 
-    console.log('*config*', typeof _config, _config);
-    return _config;
+  console.log(argv.stats);
+
+  if (!isDevelopment && argv.stats) _config.stats = true;
+  // console.log('*config*', typeof _config, _config);
+
+  return _config;
 };

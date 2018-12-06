@@ -7,18 +7,42 @@ yarn init
 ```
 
 ```bash
-yarn add -D webpack webpack-cli
+yarn add -D webpack webpack-cli http-server
 ```
 
 ```bash
-yarn add react react-dom react-router-dom @babel/runtime @babel/polyfill numeral
+yarn add react react-dom react-router-dom @babel/runtime @babel/polyfill numeral jquery whatwg-fetch
 ```
 
 ```bash
-yarn add -D @babel/core babel-loader @babel/preset-env @babel/preset-react @babel/plugin-transform-runtime
+yarn add -D @babel/core babel-loader @babel/preset-env @babel/preset-react
+yarn add -D @babel/plugin-transform-runtime @babel/plugin-transform-async-to-generator @babel/plugin-proposal-object-rest-spread
+```
+
+```json
+{
+  "plugins": [
+    "@babel/plugin-transform-async-to-generator", //
+    "@babel/plugin-proposal-object-rest-spread", //
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        "corejs": false,
+        "helpers": true,
+        "regenerator": true,
+        "useESModules": false
+      }
+    ]
+  ]
+}
+```
+
+```bash
 yarn add -D html-webpack-plugin html-loader webpack-dev-server prop-types
-yarn add -D uglifyjs-webpack-plugin clean-webpack-plugin
-yarn add -D css-loader style-loader mini-css-extract-plugin node-sass postcss-loader sass-loader
+yarn add -D uglifyjs-webpack-plugin clean-webpack-plugin terser-webpack-plugin
+yarn add -D css-loader style-loader mini-css-extract-plugin node-sass sass-loader
+yarn add -D postcss postcss-loader postcss-import postcss-cssnext
+yarn add -D strip-loader expose-loader imports-loader exports-loader
 yarn add -D autoprefixer cssnano
 ```
 
@@ -27,7 +51,9 @@ yarn add -D webpack-merge cross-env dotenv dotenv-expand dotenv-extended fs.extr
 ```
 
 ```bash
-yarn add -D eslint prettier babel-eslint eslint-config-airbnb eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react prettier-eslint eslint-config-prettier eslint-plugin-prettier
+yarn add -D eslint babel-eslint eslint-config-airbnb eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react
+yarn add -D prettier prettier-eslint eslint-config-prettier eslint-plugin-prettier
+
 ```
 
 ---
