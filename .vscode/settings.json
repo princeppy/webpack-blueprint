@@ -14,5 +14,8 @@
   },
   "eslint.autoFixOnSave": true,
   "eslint.alwaysShowStatus": true,
-  "prettier.singleQuote": true
+  "eslint.packageManager": "yarn",
+  "prettier.singleQuote": true,
+  "files.eol": "\r\n",
+  "prettier.endOfLine": "crlf"
 }

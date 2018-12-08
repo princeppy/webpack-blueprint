@@ -1,4 +1,11 @@
 module.exports = {
+  globals: {
+    _: false,
+    __dirname: false,
+    document: false,
+    console: false,
+    module: false
+  },
   parser: 'babel-eslint',
   extends: ['airbnb', 'prettier', 'prettier/react', 'plugin:prettier/recommended'],
   parserOptions: {
@@ -9,15 +16,21 @@ module.exports = {
     node: true,
     jquery: true
   },
+  settings: {
+    'files.eol': '\r\n',
+    'eslint.packageManager': 'yarn'
+  },
   plugins: ['react', 'jsx-a11y', 'import', 'prettier'],
   rules: {
     strict: [0],
-    'no-console': [0],
-    'no-unused-vars': [1],
-    'linebreak-style': ['error', 'windows'],
-    'prettier/prettier': ['error'],
-    'jsx-a11y/href-no-hash': [0],
+    'global-require': 0,
+    'no-console': 0,
+    'no-unused-vars': 1,
+    'linebreak-style': [1, 'windows'],
+    'prettier/prettier': 'error',
+    'jsx-a11y/href-no-hash': 0,
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
-    'react/no-unused-prop-types': [0]
+    'react/no-unused-prop-types': 0,
+    'prefer-const': [1]
   }
 };

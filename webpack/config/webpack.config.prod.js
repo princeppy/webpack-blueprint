@@ -4,6 +4,7 @@
 // const path = require('path');
 const Webpack = require('webpack');
 const merge = require('webpack-merge');
+// eslint-disable-next-line prefer-destructuring
 const argv = require('yargs').argv;
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
@@ -15,15 +16,15 @@ const common = require('./webpack.config.common')(argv);
 
 module.exports = merge(common, {
   mode: 'production',
-  devtool: 'source-map',
-  stats: 'errors-only',  
+  devtool: 'none', // 'nosources-source-map',
+  stats: 'errors-only',
   bail: true,
-  optimization: {
-    // minimize: true, // optimization.minimize is 'true' by default in production mode.
-    // minimizer: [new TerserPlugin({})],  // optimization.minimizer is 'TerserPlugin' by default in production mode.
-    // usedExports: true, // optimization.usedExports is enabled in production
-    // sideEffects: true, // optimization.sideEffects is enabled in production mode
-  },
+  // optimization: {
+  //   // minimize: true, // optimization.minimize is 'true' by default in production mode.
+  //   // minimizer: [new TerserPlugin({})],  // optimization.minimizer is 'TerserPlugin' by default in production mode.
+  //   // usedExports: true, // optimization.usedExports is enabled in production
+  //   // sideEffects: true, // optimization.sideEffects is enabled in production mode
+  // },
   module: {
     rules: [
       {

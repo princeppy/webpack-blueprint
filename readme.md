@@ -16,7 +16,11 @@ yarn add react react-dom react-router-dom @babel/runtime @babel/polyfill numeral
 
 ```bash
 yarn add -D @babel/core babel-loader @babel/preset-env @babel/preset-react
-yarn add -D @babel/plugin-transform-runtime @babel/plugin-transform-async-to-generator @babel/plugin-proposal-object-rest-spread
+yarn add -D @babel/plugin-transform-runtime @babel/plugin-transform-async-to-generator @babel/plugin-proposal-object-rest-spread @babel/plugin-syntax-dynamic-import
+```
+
+```bash
+yarn add react-loadable
 ```
 
 ```json
@@ -41,19 +45,69 @@ yarn add -D @babel/plugin-transform-runtime @babel/plugin-transform-async-to-gen
 yarn add -D html-webpack-plugin html-loader webpack-dev-server prop-types
 yarn add -D uglifyjs-webpack-plugin clean-webpack-plugin terser-webpack-plugin
 yarn add -D css-loader style-loader mini-css-extract-plugin node-sass sass-loader
-yarn add -D postcss postcss-loader postcss-import postcss-cssnext
+yarn add -D postcss postcss-loader postcss-import postcss-preset-env
 yarn add -D strip-loader expose-loader imports-loader exports-loader
-yarn add -D autoprefixer cssnano
+yarn add -D browserslist autoprefixer cssnano
 ```
 
 ```bash
-yarn add -D webpack-merge cross-env dotenv dotenv-expand dotenv-extended fs.extra yargs config
+yarn add -D webpack-merge fs-extra yargs merge-json
+yarn add -D cross-env dotenv dotenv-expand dotenv-extended config
+```
+
+```
+yarn add -D webpack-node-modules-list webpack-dashboard webpack-bundle-analyzer duplicate-package-checker-webpack-plugin webpack-async-chunk-names-plugin
+```
+
+~~`yarn add -D webpack-split-by-path`~~
+
+### correction in webpack-node-modules-list starting line \# 35
+
+```js
+let context = contextArray.join(path.sep),
+  npmModule = contextArray[contextArray.indexOf('node_modules') + 1],
+  packageJsonFile = path.join(context, 'package.json'),
+  packageJson = JSON.parse(fs.readFileSync(packageJsonFile, 'UTF-8'));
+
+npmModules.set(packageJson.name, {
+  name: packageJson.name,
+  version: packageJson.version,
+  homepage: packageJson.homepage,
+  license: getLicenses(packageJson)
+});
+```
+
+**to**
+
+```js
+let context = contextArray.join(path.sep),
+  npmModule = contextArray[contextArray.indexOf('node_modules') + 1],
+  packageJsonFile = path.join(context, 'package.json'),
+  packageJson = fs.existsSync(packageJsonFile) ? JSON.parse(fs.readFileSync(packageJsonFile, 'UTF-8')) : null;
+
+if (!(packageJson === null || packageJson === undefined)) {
+  npmModules.set(packageJson.name, {
+    name: packageJson.name,
+    version: packageJson.version,
+    homepage: packageJson.homepage,
+    license: getLicenses(packageJson)
+  });
+}
 ```
 
 ```bash
 yarn add -D eslint babel-eslint eslint-config-airbnb eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react
 yarn add -D prettier prettier-eslint eslint-config-prettier eslint-plugin-prettier
+```
 
+## ESLint running locally
+
+- install `npm i -g eslint-cli` and remove all eslint related packages from `echo "$(npm -g root)"`
+- run `eslint` from root
+  If you want to eslint globally use below code
+
+```
+eslint --ext '.js' -c '.eslintrc.js' src --fix
 ```
 
 ---
@@ -63,11 +117,14 @@ yarn add -D prettier prettier-eslint eslint-config-prettier eslint-plugin-pretti
 ---
 
 - `yarn add -D nodemon` -or- `npm i -g nodemon`
-- `npm i -g webpack-stats-graph`
+- ~~`npm i -g webpack-stats-graph`~~
+  `yarn global add https://github.com/princeppy/webpack-stats-graph.git`
+  `npm i -g https://github.com/princeppy/webpack-stats-graph.git`
 
 ---
 
 > **Edit Needed on webpack-stats-graph v(0.2.1)**
+> either install 'https://github.com/princeppy/webpack-stats-graph.git' or edit as below
 >
 > - run `npm root -g`
 > - navagate to '\webpack-stats-graph\'
@@ -127,7 +184,8 @@ if (module.hot) {
 - [Configure ESLint, Prettier, and Flow in VS Code for React Development](https://medium.com/@sgroff04/configure-eslint-prettier-and-flow-in-vs-code-for-react-development-c9d95db07213)
 - [Integrating Prettier + ESLint + Airbnb Style Guide in VSCode](https://blog.echobind.com/integrating-prettier-eslint-airbnb-style-guide-in-vscode-47f07b5d7d6a)
 - [How to write a frontend JavaScript plugin using ES6 + SASS + Webpack](https://itnext.io/how-to-write-a-frontend-javascript-plugin-using-es6-sass-webpack-a1c6d6fdeb71)
-- **[Webpack (v4) Code Splitting using SplitChunksPlugin](https://itnext.io/react-router-and-webpack-v4-code-splitting-using-splitchunksplugin-f0a48f110312)**
+- [Webpack (v4) Code Splitting using SplitChunksPlugin](https://itnext.io/react-router-and-webpack-v4-code-splitting-using-splitchunksplugin-f0a48f110312)
+- [Creating a Plugin](https://webpack.js.org/contribute/writing-a-plugin/)
 
 ---
 
@@ -166,3 +224,9 @@ git add . ; git commit -am 'Initial' ; git push origin master ; git status ;
 - https://reactjs.org/docs/typechecking-with-proptypes.html
 - https://medium.com/javascript-training/beginner-s-guide-to-webpack-b1f1a3638460
   - https://www.npmjs.com/package/strip-loader
+
+# React ~ Redux ~ Thunk
+
+```
+yarn add redux react-redux redux-thunk
+```

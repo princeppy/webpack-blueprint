@@ -9,50 +9,87 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const WebpackStrip = require('strip-loader');
 const autoprefixer = require('autoprefixer');
+const BundleAnalyzer = require('webpack-bundle-analyzer');
+const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin');
+const AsyncChunkNames = require('webpack-async-chunk-names-plugin');
+
+const StatsGraphPlugin = require('../plugins/stats-graph-plugin');
+const WebpackInfoPlugin = require('../plugins/webpack-info-plugin');
+const WebpackNodeModulesList = require('../plugins/webpack-node-modules-list');
+
+// eslint-disable-next-line import/order
+const WebpackDashboard = require('webpack-dashboard/plugin');
 
 module.exports = argv => {
-  console.log(chalk.yellow.bgRed.bold.underline(`dist ='${path.resolve(__dirname, '../../dist')}'`));
+  // console.log(chalk.yellow.bgRed.bold.underline(`dist ='${path.resolve(__dirname, '../../dist')}'`));
 
   const baseConfig = {
     entry: [
-      '@babel/polyfill', //
-      'whatwg-fetch',
-      'jQuery', //
+      // '@babel/polyfill',
+      'core-js/modules/es6.promise',
+      'core-js/modules/es6.array.iterator',
+      // 'whatwg-fetch',
+      // 'jQuery', //
       path.join(process.cwd(), 'src/index.js')
     ],
     output: {
       path: path.resolve(__dirname, '../../dist'),
       publicPath: '/',
-      filename: '[name].[hash].bundle.js',
-      chunkFilename: '[name].bundle.js'
+      filename: 'main.js',
+      chunkFilename: '[name].js'
+      // filename: '[name].[hash:4].bundle.js',
+      // chunkFilename: '[name].[hash:4].chunk.js'
     },
     optimization: {
-      runtimeChunk: 'single',
       splitChunks: {
-        chunks: 'all',
+        // chunks: 'all',
         cacheGroups: {
-          commons: {
-            name: 'commons',
-            chunks: 'initial',
-            minChunks: 2
-          },
-          vendors: {
-            test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+          automaticNameDelimiter: '.',
+          default: false,
+          vendors: false,
+          // vendor chunk
+          vendor: {
+            // name of the chunk
             name: 'vendor',
+
+            // sync + async chunks
             chunks: 'all',
-            filename: '[name].bundle.js',
-            priority: -10,
-            minSize: 0
+
+            // import file path containing node_modules
+            test: /node_modules/,
+
+            // priority
+            priority: 20
           },
-          default: {
+          // common chunk
+          common: {
+            name: 'common',
             minChunks: 2,
-            priority: -20,
-            reuseExistingChunk: true
+            chunks: 'async',
+            priority: 10,
+            reuseExistingChunk: true,
+            enforce: true
           }
-        },
+          //     common: {
+          //       test: /[\\/](jQuery|underscore)[\\/]/gi,
+          //       name: 'common',
+          //       chunks: 'all',
+          //       filename: '[name].[hash:4].chunk.js',
+          //       priority: 10
+          //     },
+          //     vendor: {
+          //       test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+          //       name: 'vendor',
+          //       chunks: 'all',
+          //       filename: '[name].[hash:4].chunk.js',
+          //       priority: -10,
+          //       reuseExistingChunk: true
+          //     }
+        }
         // minSize: 30000, //default
-        minSize: 0
+        // minSize: 0
       }
+      // runtimeChunk: 'single'
     },
     module: {
       rules: [
@@ -124,8 +161,9 @@ module.exports = argv => {
     },
     plugins: [
       new CleanWebpackPlugin(['dist/*.*', 'statsgraph/*.*'], {
-        root: path.resolve(__dirname, '../')
+        root: path.resolve(__dirname, '../../')
       }),
+      new AsyncChunkNames(),
       // Webpack.ProvidePlugin : Provides jQuery for other JS bundled with Webpack
       new Webpack.ProvidePlugin({
         'window.jQuery': 'jQuery',
@@ -140,8 +178,8 @@ module.exports = argv => {
       }),
       new Webpack.LoaderOptionsPlugin({ options: { postcss: [autoprefixer()] } }),
       new MiniCssExtractPlugin({
-        filename: '[name].css',
-        chunkFilename: '[id].css'
+        filename: '[name].[contenthash:4].css',
+        chunkFilename: '[id].[contenthash:4].css'
       })
     ],
     resolve: {
@@ -158,30 +196,70 @@ module.exports = argv => {
       }
     }
   };
+  let duplicateChecker = false;
 
-  // if (argv.stat) {
-  //   console.log(chalk.underline(chalk.yellow('****** => Enabled StatsGraphPlugin')));
-  //   baseConfig.plugins = baseConfig.plugins || [];
-  //   baseConfig.plugins.push(new StatsGraphPlugin());
-  // }
+  // --node-list
+  if (argv.nodeList) {
+    console.log(chalk.red.bgYellow.bold.underline('****** => Enabled Node Modules List Webpack Plugin'));
+    console.log(chalk.red.bgYellow.bold.underline(`             => output is on '/dist/npm-modules.md`));
+    baseConfig.plugins = baseConfig.plugins || [];
+    baseConfig.plugins.push(new WebpackNodeModulesList({}));
+    duplicateChecker = true;
+  }
 
-  // if (argv.info) {
-  //   console.log(chalk.underline(chalk.yellow('****** => Enabled WebpackInfoPlugin')));
-  //   baseConfig.plugins = baseConfig.plugins || [];
-  //   baseConfig.plugins.push(new WebpackInfoPlugin());
-  // }
+  /*
+  // --stats
+  if (argv.stats) {
+    console.log(chalk.red.bgYellow.bold.underline('****** => Enabled Node Modules List StatsGraphPlugin'));
+    console.log(chalk.red.bgYellow.bold.underline(`         => output is on '/statsgraph/npm-modules.md`));
+    baseConfig.plugins = baseConfig.plugins || [];
+    baseConfig.plugins.push(new StatsGraphPlugin());
+    duplicateChecker = true;
+  }
+  */
 
-  // if (argv.analyze) {
-  //   console.log(chalk.underline(chalk.yellow('****** => Enabled BundleAnalyzerPlugin')));
-  //   baseConfig.plugins = baseConfig.plugins || [];
-  //   baseConfig.plugins.push(new BundleAnalyzerPlugin());
-  // }
+  // --webpack-info
+  if (argv.webpackInfo) {
+    console.log(chalk.red.bgYellow.bold.underline('****** => Enabled WebpackInfoPlugin'));
+    baseConfig.plugins = baseConfig.plugins || [];
+    baseConfig.plugins.push(new WebpackInfoPlugin());
+    duplicateChecker = true;
+  }
 
-  // if (argv.dashboard) {
-  //   console.log(chalk.underline(chalk.yellow('****** => Enabled WebpackDashboard')));
-  //   baseConfig.plugins = baseConfig.plugins || [];
-  //   baseConfig.plugins.push(new WebpackDashboard());
-  // }
+  // --analyzer
+  if (argv.analyzer) {
+    console.log(chalk.red.bgYellow.bold.underline('****** => Enabled BundleAnalyzerPlugin'));
+    baseConfig.plugins = baseConfig.plugins || [];
+    baseConfig.plugins.push(
+      new BundleAnalyzer.BundleAnalyzerPlugin({
+        analyzerMode: 'static',
+        generateStatsFile: true
+        //
+      })
+    );
+    duplicateChecker = true;
+  }
+
+  // --dashboard
+  if (argv.dashboard) {
+    console.log(chalk.red.bgYellow.bold.underline('****** => Enabled Node WebpackDashboard'));
+    baseConfig.plugins = baseConfig.plugins || [];
+    baseConfig.plugins.push(new WebpackDashboard());
+    duplicateChecker = true;
+  }
+
+  // --duplicate-checker
+  if (argv.duplicateChecker) {
+    // duplicate-checker
+    // eslint-disable-next-line no-eval
+    duplicateChecker = eval(argv.duplicateChecker);
+  }
+
+  if (duplicateChecker) {
+    console.log(chalk.red.bgYellow.bold.underline('****** => Enabled Node DuplicatePackageCheckerPlugin'));
+    baseConfig.plugins = baseConfig.plugins || [];
+    baseConfig.plugins.push(new DuplicatePackageCheckerPlugin());
+  }
 
   return baseConfig;
 };

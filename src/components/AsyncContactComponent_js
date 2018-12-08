@@ -1,0 +1,15 @@
+import React, { Component } from 'react';
+import loadable from 'react-loadable';
+
+// contact route component
+const LoadingComponent = () => <h3>please wait...</h3>;
+//
+
+const ContactComponentPromise = () => import('./ContactComponent');
+
+const AsyncContactComponent = loadable({
+  loader: ContactComponentPromise,
+  loading: LoadingComponent
+});
+
+export default AsyncContactComponent;

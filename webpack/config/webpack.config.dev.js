@@ -4,20 +4,27 @@
 const path = require('path');
 const Webpack = require('webpack');
 const merge = require('webpack-merge');
+// eslint-disable-next-line prefer-destructuring
 const argv = require('yargs').argv;
 const config = require('config');
+const TerserPlugin = require('terser-webpack-plugin');
 
 /* */
 // const paths = require('./paths');
 const common = require('./webpack.config.common')(argv);
+
 console.log('generate-stat rs=', config.get('generate-stat'));
 
 module.exports = merge(common, {
   mode: 'development',
   devtool: 'cheap-eval-source-map',
   optimization: {
-    minimize: false,
-    minimizer: []
+    // minimize: false,
+    // minimizer: []
+    // // minimize: true, // optimization.minimize is 'true' by default in production mode.
+    // // minimizer: [new TerserPlugin({})], // optimization.minimizer is 'TerserPlugin' by default in production mode.
+    // // usedExports: true, // optimization.usedExports is enabled in production
+    // // sideEffects: true // optimization.sideEffects is enabled in production mode
   },
   devServer: {
     contentBase: path.resolve(__dirname, '../src'),

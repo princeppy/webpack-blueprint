@@ -3,16 +3,19 @@ module.exports = {
     [
       '@babel/preset-env',
       {
-        useBuiltIns: 'entry',
-        // modules:'commonjs' //default
-        modules: false
+        // useBuiltIns: 'entry',
+        useBuiltIns: 'usage',
+        modules: 'commonjs', // default
+        // modules: false, // custom
+        debug: true
       }
     ],
-    '@babel/preset-react'
+    ['@babel/preset-react']
   ],
   plugins: [
     '@babel/plugin-transform-async-to-generator', //
     '@babel/plugin-proposal-object-rest-spread', //
+    '@babel/plugin-syntax-dynamic-import', //
     [
       '@babel/plugin-transform-runtime',
       {
