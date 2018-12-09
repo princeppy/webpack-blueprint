@@ -3,10 +3,18 @@ module.exports = {
     [
       '@babel/preset-env',
       {
-        // useBuiltIns: 'entry',
+        targets: {
+          browsers: [
+            'last 1 chrome versions'
+            // '>0.2%',
+            // 'not dead',
+            // 'not ie <= 11',
+            // 'not op_mini all' //
+          ]
+          //   esmodules: true
+        },
         useBuiltIns: 'usage',
-        modules: 'commonjs', // default
-        // modules: false, // custom
+        // modules: 'commonjs', // default
         debug: true
       }
     ],
@@ -14,16 +22,15 @@ module.exports = {
   ],
   plugins: [
     '@babel/plugin-transform-async-to-generator', //
-    '@babel/plugin-proposal-object-rest-spread', //
+    ['@babel/plugin-proposal-object-rest-spread', { useBuiltIns: true }],
     '@babel/plugin-syntax-dynamic-import', //
     [
       '@babel/plugin-transform-runtime',
-      {
-        corejs: false,
-        helpers: true,
-        regenerator: true,
-        useESModules: false
-      }
-    ]
+      { corejs: false, helpers: true, regenerator: true, useESModules: true, helpers: false }
+    ],
+    'babel-plugin-macros',
+    '@babel/plugin-transform-destructuring',
+    ['@babel/plugin-proposal-class-properties', { loose: true }],
+    ['babel-plugin-transform-react-remove-prop-types', { removeImport: true }]
   ]
 };

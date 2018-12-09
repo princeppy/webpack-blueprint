@@ -118,7 +118,9 @@ eslint --ext '.js' -c '.eslintrc.js' src --fix
 
 - `yarn add -D nodemon` -or- `npm i -g nodemon`
 - ~~`npm i -g webpack-stats-graph`~~
+
   `yarn global add https://github.com/princeppy/webpack-stats-graph.git`
+
   `npm i -g https://github.com/princeppy/webpack-stats-graph.git`
 
 ---
@@ -186,6 +188,12 @@ if (module.hot) {
 - [How to write a frontend JavaScript plugin using ES6 + SASS + Webpack](https://itnext.io/how-to-write-a-frontend-javascript-plugin-using-es6-sass-webpack-a1c6d6fdeb71)
 - [Webpack (v4) Code Splitting using SplitChunksPlugin](https://itnext.io/react-router-and-webpack-v4-code-splitting-using-splitchunksplugin-f0a48f110312)
 - [Creating a Plugin](https://webpack.js.org/contribute/writing-a-plugin/)
+- [React Tutorial for Beginners](https://ihatetomatoes.net/react-tutorial-for-beginners/)
+  - React component syntax : statless components vs class components
+  - State vs Props
+  - Destructuring
+  - Render component into the DOM
+- [React Redux Tutorial for Beginners: The Definitive Guide (2018)](https://www.valentinog.com/blog/react-redux-tutorial-beginners/)
 
 ---
 

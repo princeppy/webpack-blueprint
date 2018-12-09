@@ -26,8 +26,8 @@ module.exports = argv => {
   const baseConfig = {
     entry: [
       // '@babel/polyfill',
-      'core-js/modules/es6.promise',
-      'core-js/modules/es6.array.iterator',
+      // 'core-js/modules/es6.promise',
+      // 'core-js/modules/es6.array.iterator',
       // 'whatwg-fetch',
       // 'jQuery', //
       path.join(process.cwd(), 'src/index.js')
@@ -107,13 +107,12 @@ module.exports = argv => {
             { loader: 'expose-loader', options: '$' } // expose jQuery it as window.$
           ]
         },
-        {
-          // Exposes whatwg-fetch for use outside Webpack build
-          test: require.resolve('whatwg-fetch'),
-          use: [
-            { loader: 'expose-loader', options: 'f' } // expose whatwg-fetch it as window.fetch
-          ]
-        },
+        // {
+        //   // Exposes whatwg-fetch for use outside Webpack build
+        //   test: require.resolve('whatwg-fetch'),
+        //   // expose whatwg-fetch it as window.fetch
+        //   use: [{ loader: 'expose-loader', options: 'f' }]
+        // },
         {
           test: /\.(mjs|js|jsx)$/,
           exclude: /(node_modules|bower_components)/,
@@ -160,19 +159,20 @@ module.exports = argv => {
       ]
     },
     plugins: [
+      // Webpack.ProvidePlugin : Provides jQuery for other JS bundled with Webpack
+      new Webpack.ProvidePlugin({
+        // fetch: 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch',
+        // // Promise: 'imports-loader?this=>global!exports-loader?global.Promise!es6-promise',
+        // Promise: 'es6-promise' // Thanks Aaron (https://gist.github.com/Couto/b29676dd1ab8714a818f#gistcomment-1584602)
+        'window.jQuery': 'jQuery',
+        'window.$': 'jQuery',
+        jQuery: 'jQuery',
+        $: 'jQuery'
+      }),
       new CleanWebpackPlugin(['dist/*.*', 'statsgraph/*.*'], {
         root: path.resolve(__dirname, '../../')
       }),
       new AsyncChunkNames(),
-      // Webpack.ProvidePlugin : Provides jQuery for other JS bundled with Webpack
-      new Webpack.ProvidePlugin({
-        'window.jQuery': 'jQuery',
-        'window.$': 'jQuery',
-        jQuery: 'jQuery',
-        $: 'jQuery',
-        fetch: 'imports?this=>global!exports?global.fetch!whatwg-fetch'
-        // Promise: 'es6-promise' // Thanks Aaron (https://gist.github.com/Couto/b29676dd1ab8714a818f#gistcomment-1584602)
-      }),
       new HtmlWebpackPlugin({
         template: './src/index.html'
       }),

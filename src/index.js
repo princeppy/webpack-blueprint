@@ -2,9 +2,10 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
+// import rootReducer from './reducers';
+import store from './store';
 import App from './components/App';
 
 // import $ from 'jQuery';
@@ -12,10 +13,6 @@ import App from './components/App';
 // window.$ = $;
 // const { jQuery: $, Underscore: _, etc } = window;
 // window.$ = window.jQuery = require('jQuery');
-
-import postReducer from './reducers/sampleReducer';
-
-const store = createStore(postReducer);
 
 const wrapper = document.getElementById('root');
 // eslint-disable-next-line no-unused-expressions

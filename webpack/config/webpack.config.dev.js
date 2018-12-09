@@ -17,7 +17,8 @@ console.log('generate-stat rs=', config.get('generate-stat'));
 
 module.exports = merge(common, {
   mode: 'development',
-  devtool: 'cheap-eval-source-map',
+  // devtool: 'cheap-eval-source-map',
+  devtool: 'source-map',
   optimization: {
     // minimize: false,
     // minimizer: []
