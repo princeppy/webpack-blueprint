@@ -57,6 +57,7 @@ yarn add -D cross-env dotenv dotenv-expand dotenv-extended config
 
 ```
 yarn add -D webpack-node-modules-list webpack-dashboard webpack-bundle-analyzer duplicate-package-checker-webpack-plugin webpack-async-chunk-names-plugin
+yarn add -D redux-devtools-extension
 ```
 
 ~~`yarn add -D webpack-split-by-path`~~
@@ -194,6 +195,7 @@ if (module.hot) {
   - Destructuring
   - Render component into the DOM
 - [React Redux Tutorial for Beginners: The Definitive Guide (2018)](https://www.valentinog.com/blog/react-redux-tutorial-beginners/)
+- [Redux Crash Course With React](https://www.youtube.com/watch?v=93p3LxR9xfM) [github](https://github.com/bradtraversy/redux_crash_course)
 
 ---
 
