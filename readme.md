@@ -99,13 +99,14 @@ if (!(packageJson === null || packageJson === undefined)) {
 ```bash
 yarn add -D eslint babel-eslint eslint-config-airbnb eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react
 yarn add -D prettier prettier-eslint eslint-config-prettier eslint-plugin-prettier
+// -or-
+yarn add -D @babel/core @babel/plugin-proposal-class-properties @babel/plugin-proposal-decorators @babel/plugin-proposal-object-rest-spread @babel/plugin-syntax-dynamic-import @babel/plugin-transform-classes @babel/plugin-transform-destructuring @babel/plugin-transform-flow-strip-types @babel/plugin-transform-react-constant-elements @babel/plugin-transform-react-display-name @babel/plugin-transform-runtime @babel/preset-env @babel/preset-react @babel/preset-typescript @babel/runtime babel-loader babel-plugin-dynamic-import-node babel-plugin-macros babel-plugin-transform-react-remove-prop-types
 ```
 
 ## ESLint running locally
 
 - install `npm i -g eslint-cli` and remove all eslint related packages from `echo "$(npm -g root)"`
-- run `eslint` from root
-  If you want to eslint globally use below code
+- run `eslint` from root If you want to eslint globally use below code
 
 ```
 eslint --ext '.js' -c '.eslintrc.js' src --fix
@@ -126,13 +127,14 @@ eslint --ext '.js' -c '.eslintrc.js' src --fix
 
 ---
 
-> **Edit Needed on webpack-stats-graph v(0.2.1)**
-> either install 'https://github.com/princeppy/webpack-stats-graph.git' or edit as below
+> **Edit Needed on webpack-stats-graph v(0.2.1)** either install 'https://github.com/princeppy/webpack-stats-graph.git'
+> or edit as below
 >
 > - run `npm root -g`
 > - navagate to '\webpack-stats-graph\'
 > - open 'index.js'
-> - add line (#325) `.filter(d => d.moduleId !== null)` before line `.map(d => ({ graphId: d.moduleId.toString(), type: d.type, }))`
+> - add line (#325) `.filter(d => d.moduleId !== null)` before line
+>   `.map(d => ({ graphId: d.moduleId.toString(), type: d.type, }))`
 >
 > ```js
 > issuers: m.reasons
@@ -143,7 +145,8 @@ eslint --ext '.js' -c '.eslintrc.js' src --fix
 >    })),
 > ```
 >
-> - replace line (#414) `const clusterDetails = parseClusterDetails(chunkIds.map(c => stats.chunks[c]));` to `const clusterDetails = parseClusterDetails(chunkIds.filter(id => stats.chunks[id]).map(c => stats.chunks[c]));`
+> - replace line (#414) `const clusterDetails = parseClusterDetails(chunkIds.map(c => stats.chunks[c]));` to
+>   `const clusterDetails = parseClusterDetails(chunkIds.filter(id => stats.chunks[id]).map(c => stats.chunks[c]));`
 >
 > ```js
 > const clusterDetails = parseClusterDetails(chunkIds.filter(id => stats.chunks[id]).map(c => stats.chunks[c]));
@@ -180,6 +183,7 @@ if (module.hot) {
 
 ## Resources
 
+- [Tutorial: How to set up React, webpack 4, and Babel 7 (2018)](https://www.valentinog.com/blog/react-webpack-babel/)
 - [Webpack 4 Tutorial: from 0 Conf to Production Mode](https://www.valentinog.com/blog/webpack-tutorial/)
 - [Learn the basics of destructuring props in React](https://medium.freecodecamp.org/the-basics-of-destructuring-props-in-react-a196696f5477)
 - [React: How To Access Props In A Functional Component](https://medium.com/@PhilipAndrews/react-how-to-access-props-in-a-functional-component-6bd4200b9e0b)
@@ -195,7 +199,8 @@ if (module.hot) {
   - Destructuring
   - Render component into the DOM
 - [React Redux Tutorial for Beginners: The Definitive Guide (2018)](https://www.valentinog.com/blog/react-redux-tutorial-beginners/)
-- [Redux Crash Course With React](https://www.youtube.com/watch?v=93p3LxR9xfM) [github](https://github.com/bradtraversy/redux_crash_course)
+- [Redux Crash Course With React](https://www.youtube.com/watch?v=93p3LxR9xfM)
+  [github](https://github.com/bradtraversy/redux_crash_course)
 
 ---
 
@@ -235,7 +240,31 @@ git add . ; git commit -am 'Initial' ; git push origin master ; git status ;
 - https://medium.com/javascript-training/beginner-s-guide-to-webpack-b1f1a3638460
   - https://www.npmjs.com/package/strip-loader
 
+# Dev Tools
+
+- [webpack-config-utils - Utilities to help your webpack config be easier to read](https://doclets.io/kentcdodds/webpack-config-utils/master/overview)
+- [Redux DevTools Extension](http://extension.remotedev.io/)
+- [Remote Redux DevTools](https://github.com/zalmoxisus/remote-redux-devtools)
+- [The difference between (and power of) the babel plugins codegen, preval, and macros](https://www.youtube.com/watch?v=1queadQ0048)
+  [codegen-vs-preval-vs-macros ](https://github.com/kentcdodds/codegen-vs-preval-vs-macros)
+  - [babel-plugin-preval](https://github.com/kentcdodds/babel-plugin-preval)
+  - [babel-plugin-macros](https://github.com/kentcdodds/babel-plugin-macros)
+  - [babel-plugin-codegen](https://github.com/kentcdodds/babel-plugin-codegen)
+  - [graphql.macro](https://github.com/evenchange4/graphql.macro)
+  - [Write your own code transform for fun and profit](https://blog.kentcdodds.com/write-your-own-code-transform-for-fun-and-profit-140abde9c5c6)
+  - [Partial Application & Lambda Parameter Syntax for JavaScript](https://medium.com/@citycide/partial-application-lambda-parameters-for-js-aa16f4d94df4)
+  - [How to use Babel codegen with React Native](https://medium.freecodecamp.org/using-babel-macros-with-react-native-8615aaf5b7df)
+- [How to configure prettier to automatically format your code](https://www.youtube.com/watch?v=hPI9UnE4dws)
+
 # React ~ Redux ~ Thunk
+
+- [Redux containers: mapDispatchToProps](https://gist.github.com/heygrady/c6c17fc7cbdd978f93a746056f618552)
+- [5 Ways to Connect Redux Actions](https://blog.benestudio.co/5-ways-to-connect-redux-actions-3f56af4009c8)
+- **\*\*** [Getting Started with Redux](https://egghead.io/courses/getting-started-with-redux) - by Dan Abramov
+- [Presentational and Container Components](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0) - by Dan Abramov
+- [Understanding how redux-thunk works](https://medium.com/@gethylgeorge/understanding-how-redux-thunk-works-72de3bdebc50)
+- [Asynchronous Redux Actions Using Redux Thunk](https://alligator.io/redux/redux-thunk/)
+- [Understanding Redux Thunk](https://codeburst.io/understanding-redux-thunk-6dbae0241817)
 
 ```
 yarn add redux react-redux redux-thunk

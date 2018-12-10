@@ -7,7 +7,15 @@ module.exports = {
     module: false
   },
   parser: 'babel-eslint',
-  extends: ['airbnb', 'prettier', 'prettier/react', 'plugin:prettier/recommended'],
+  extends: [
+    'airbnb', 
+    'eslint:recommended',
+    'prettier',
+    'prettier/react',
+    'plugin:prettier/recommended',
+    'plugin:react/recommended'
+    //
+  ],
   parserOptions: {
     ecmaVersion: 8
   },

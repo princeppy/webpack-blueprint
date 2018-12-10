@@ -1,5 +1,10 @@
-// eslint-disable-next-line no-unused-vars
-import { createStore, applyMiddleware, compose } from 'redux';
+/* eslint-disable no-unused-vars */
+/* eslint-disable import/no-extraneous-dependencies */
+
+import { createStore, applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+// import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
+
 import thunk from 'redux-thunk';
 
 import rootReducer from '../reducers';
@@ -7,15 +12,16 @@ import rootReducer from '../reducers';
 const initialState = {};
 const middleware = [thunk];
 
-// eslint-disable-next-line no-underscore-dangle
-const devTools = window.__REDUX_DEVTOOLS_EXTENSION__ ? [window.__REDUX_DEVTOOLS_EXTENSION__()] : [f => f];
+const composeEnhancers = composeWithDevTools({
+  // Specify name here, actionsBlacklist, actionsCreators and other options if needed
+});
 
 const store = createStore(
   rootReducer,
   initialState,
-  compose(
-    applyMiddleware(...middleware),
-    ...devTools
+  composeEnhancers(
+    applyMiddleware(...middleware)
+    // other store enhancers if any
   )
 );
 

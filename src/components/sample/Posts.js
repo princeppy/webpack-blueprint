@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-shadow */
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -9,8 +10,9 @@ import PostForm from './PostForm';
 
 class Posts extends Component {
   componentWillMount() {
-    const { fetchPosts } = this.props;
-    fetchPosts();
+    // eslint-disable-next-line no-unused-vars
+    const { fetchPostsOnLoad } = this.props;
+    fetchPostsOnLoad();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -29,7 +31,6 @@ class Posts extends Component {
       </div>
     ));
 
-    console.log(posts);
     return (
       <div>
         <PostForm />
@@ -46,6 +47,14 @@ Posts.prototypes = {
   newPost: PropTypes.object
 };
 
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      fetchPostsOnLoad: fetchPosts
+    },
+    dispatch
+  );
+
 const mapStateToProps = state => ({
   posts: state.posts.items,
   newPost: state.posts.item
@@ -53,5 +62,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { fetchPosts }
+  mapDispatchToProps
 )(Posts);

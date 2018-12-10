@@ -1,6 +1,7 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -23,17 +24,10 @@ class PostForm extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    const { createPost } = this.props;
+    const { cPost } = this.props;
     const { title, body } = this.state;
     const post = { title, body };
-    createPost(post);
-    // fetch('https://jsonplaceholder.typicode.com/posts', {
-    //   method: 'POST',
-    //   headers: { 'Content-type': 'application/json; charset=UTF-8' },
-    //   body: JSON.stringify(post)
-    // })
-    //   .then(res => res.json())
-    //   .then(data => console.log(data));
+    cPost(post);
   }
 
   render() {
@@ -66,10 +60,23 @@ class PostForm extends Component {
 }
 
 PostForm.propTypes = {
-  createPost: PropTypes.func.isRequired
+  cPost: PropTypes.func.isRequired
 };
 
 export default connect(
-  null,
-  { createPost }
+  // eslint-disable-next-line no-unused-vars
+  (state, ownProps) => ({
+    //
+  }),
+  // eslint-disable-next-line no-unused-vars
+  (dispatch, ownProps) =>
+    bindActionCreators(
+      {
+        cPost: post => {
+          // const { id } = ownProps
+          dispatch(createPost(post));
+        }
+      },
+      dispatch
+    )
 )(PostForm);

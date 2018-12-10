@@ -17,5 +17,6 @@
   "eslint.packageManager": "yarn",
   "prettier.singleQuote": true,
   "files.eol": "\r\n",
-  "prettier.endOfLine": "crlf"
+  "prettier.endOfLine": "crlf",
+  "editor.rulers": [80, 120]
 }

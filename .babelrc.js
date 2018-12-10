@@ -24,10 +24,8 @@ module.exports = {
     '@babel/plugin-transform-async-to-generator', //
     ['@babel/plugin-proposal-object-rest-spread', { useBuiltIns: true }],
     '@babel/plugin-syntax-dynamic-import', //
-    [
-      '@babel/plugin-transform-runtime',
-      { corejs: false, helpers: true, regenerator: true, useESModules: true, helpers: false }
-    ],
+    '@babel/plugin-transform-runtime',
+    // [ '@babel/plugin-transform-runtime', { corejs: true, helpers: true, regenerator: true, useESModules: true, helpers: false } ],
     'babel-plugin-macros',
     '@babel/plugin-transform-destructuring',
     ['@babel/plugin-proposal-class-properties', { loose: true }],
